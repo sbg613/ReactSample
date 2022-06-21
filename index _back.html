@@ -1,0 +1,21 @@
+<html>
+    <head>
+        
+    </head>
+    <body>
+        <span id="span01" >Total clicks : 0</span>
+        <button id="btn01" >Click Me</button>
+    </body>
+    <script >
+        let iCounter = 0;
+        const oBtn01 = document.querySelector("#btn01");
+        const oSpan01 = document.querySelector("#span01");
+
+        oBtn01.addEventListener("click", (event) => {
+            event.preventDefault();
+            
+            iCounter += 1;
+            oSpan01.innerHTML = `Total clicks : ${iCounter}`;
+        });
+    </script>
+</html>

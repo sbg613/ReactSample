@@ -1,0 +1,122 @@
+<html>
+    <head> </head>
+    <body >
+        <div id="root"></div>
+    </body>
+    <script src="https://unpkg.com/react@18.2.0/umd/react.production.min.js" ></script>
+    <script src="https://unpkg.com/react-dom@18.2.0/umd/react-dom.production.min.js" ></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script type="text/babel">
+        //const oRoot = document.querySelector("#root");
+
+        const oRoot = document.getElementById("root");
+                
+/*
+        const oSpan01 = React.createElement(
+            "span", 
+            {id: "span01"
+            , onMouseEnter: (event) => { 
+                                            event.preventDefault();
+                                            console.log("----oSpan01-----");
+                                        }
+            , style: {color: "red" } },
+            "Hellow Span"
+        );
+
+        const oBtn01 = React.createElement(
+            "button", 
+            {id: "btn01", 
+             onClick: (event) => { 
+                                    event.preventDefault();
+                                    console.log("----btn01-----"); 
+                                 }
+            },
+            "Click Me"
+        );
+
+        const oContainer = React.createElement(
+            "div", 
+            {id: "container"},
+            [oSpan01, oBtn01]
+        );
+
+        */
+        /*
+        let iCount = 0;    
+
+        const Span = () => (
+            <h3 id="title" onMouseEnter = {(event) => {
+                                                        event.preventDefault();
+                                                        //console.log(event);
+                                                        iCount += 1;
+                                                        ReactDOM.createRoot(oRoot).render(oContainer);
+                                                    }} >
+                Hellow I'm a title : {iCount}
+            </h3>
+        );
+
+       const Btn = () => (
+            <button  onClick = {(event) => {
+                                                event.preventDefault();
+                                                iCount += 1;
+                                               // console.log("----iCount-----" + iCount);
+                                                ReactDOM.createRoot(oRoot).render(oContainer);
+                                            }} >
+                Click Me
+            </button>
+       );
+
+       const oContainer = (
+            <div>
+                <Span />
+                <Btn />
+            </div>    
+       );
+
+       ReactDOM.createRoot(oRoot).render(oContainer);
+
+       */
+    
+       const App = () => {
+
+            const [iCounter, setCounter] = React.useState(0);
+
+            const [iCounter2, setCounter2] = React.useState(100);
+
+            const onClick = () => {
+                setCounter(iCounter + 1);
+            };
+
+            const onClick2 = () => {
+                setCounter2(iCounter2 + 1);
+            };
+
+
+            //console.log(data);
+            return (
+                    <div>
+                        <h3>Total clicks : {iCounter}</h3>
+                        <button onClick={onClick} >Click Me</button>   
+                        <h3>Total clicks : {iCounter2}</h3>
+                        <button onClick={onClick2} >Click Me</button>
+                    </div>
+                );
+        }
+       /*
+       const App = () => {
+            const [count, setCount] = React.useState(0);
+
+            console.log( [count, setCount]);
+
+            return (
+                <div>
+                     <h3>Total clicks : 0</h3>
+                     <button>Click Me</button>   
+                </div>
+            )
+       };
+*/
+       ReactDOM.createRoot(oRoot).render(<App />);
+
+    </script>
+</html>
