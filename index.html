@@ -1,11 +1,18 @@
 <html>
     <head> </head>
-    <body >
+    <body>
         <div id="root"></div>
+        
     </body>
-    <script src="https://unpkg.com/react@18.2.0/umd/react.production.min.js" ></script>
-    <script src="https://unpkg.com/react-dom@18.2.0/umd/react-dom.production.min.js" ></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <!-- -->
+    <script src="https://unpkg.com/react@18.2.0/umd/react.production.min.js" ></script>
+    <script src="https://unpkg.com/react-dom@18.2.0/umd/react-dom.production.min.js" ></script> 
+
+    <!--<script src="https://unpkg.com/browse/react@18.2.0/umd/react.development.js" ></script>
+    <script src="https://unpkg.com/browse/react-dom@18.2.0/umd/react-dom.development.js" ></script> -->
+    
     <script type="text/babel">
         //const oRoot = document.querySelector("#root");
 
@@ -76,29 +83,51 @@
        ReactDOM.createRoot(oRoot).render(oContainer);
 
        */
-    
+       const Header = () => {
+            return (<h3>헤더입니다.</h3>);
+       }
+       const Footer = () => {
+            return (<h3>풋터입니다.</h3>);
+       }
+
        const App = () => {
 
             const [iCounter, setCounter] = React.useState(0);
-
-            const [iCounter2, setCounter2] = React.useState(100);
-
-            const onClick = () => {
-                setCounter(iCounter + 1);
+            const fnClick = (event) => {
+                event.preventDefault();
+                setCounter((cur) => {
+                    const iCnt = cur + 1;
+                    return iCnt;
+                });
             };
 
-            const onClick2 = () => {
-                setCounter2(iCounter2 + 1);
+            const [iMinutes, setMinutes] = React.useState(0);
+            const fnChange = (event) => {
+                event.preventDefault();
+                setMinutes((cur) => {return event.target.value;});
             };
 
+            const fnReset = () => setMinutes(0);
 
-            //console.log(data);
+            const [bDisabled, setDisabled] = React.useState(true);
+            const fnDisabled = (event) => {
+                event.preventDefault();
+                setDisabled((cur) => !cur);
+            };
+
+  
             return (
                     <div>
-                        <h3>Total clicks : {iCounter}</h3>
-                        <button onClick={onClick} >Click Me</button>   
-                        <h3>Total clicks : {iCounter2}</h3>
-                        <button onClick={onClick2} >Click Me</button>
+                        <Header />
+                        <label htmlFor="min">Min</label>
+                        <input type="number" id="minutes" placeholder="Minutes" value={!bDisabled ? iMinutes * 60 : iMinutes } onChange={fnChange} min="0" max="9999"  disabled={!bDisabled} />
+                        <br />
+                        <label htmlFor="hour">Hour</label>   
+                        <input type="number" id="hours"   placeholder="Hours"   value={bDisabled ? Math.round(iMinutes / 60) : iMinutes } min="0" max="99999999" onChange={fnChange}  disabled={bDisabled} />
+                        <br />
+                        <button onClick={fnReset} >Reset</button>
+                        <button onClick={fnDisabled} >Flip</button>
+                        <Footer />
                     </div>
                 );
         }
@@ -117,6 +146,6 @@
        };
 */
        ReactDOM.createRoot(oRoot).render(<App />);
-
+    // ReactDOM.render(<App />, oRoot);
     </script>
 </html>
