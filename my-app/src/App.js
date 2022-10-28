@@ -1,34 +1,27 @@
 import {useState, useEffect} from "react";
 
-function HelloComponent() {
-
-  function fnHelloStart() {
-    console.log("Hello Start!!!");
-    return fnHelloEnd;
-  }
-
-  function fnHelloEnd() {
-    console.log("Hello End!!!");
-  }
-
-  useEffect(fnHelloStart, []);
-
-  return <h1>Hellow</h1>;
-}
-
 function App() {
 
-  const [showing, setShowing] = useState(false);
-  const onShowing = () => setShowing((prev) => !prev);
+  const [loading, setLoading] = useState(true);
+  const [coins, setCoins] = useState([]);
 
-  useEffect(() => {
-    console.log("rendering~");
+  useEffect(()=>{
+    console.log("==Load==");
+    
+    fetch(`https://yts.mx/api/v2/list_movies.json?minimum_ration=8.5`).then((rep) => rep.json()).then((json) => {
+     // console.log(json);
+      setCoins(json);
+      setLoading(false)
+    });
+
   },[]);
-
+  
   return (
     <div>
-      {showing ? <HelloComponent /> : null}
-      <button onClick={onShowing}>{showing ? "Hide": "Show"}</button>
+      <h1>The ! {loading ? <strong>Loading...</strong> : null }</h1>
+      <hr/>
+      {loading ? <strong>Loading...</strong> : null}
+      <hr/>
     </div>
   );
 }
