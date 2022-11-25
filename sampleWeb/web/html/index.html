@@ -65,7 +65,7 @@
     class AnimalsX2VO {
         
         constructor(headCnt, bodyCnt, footCnt, tailCnt){
-            this.x = 3;
+            this.x = 1;
 
             this.headCnt = headCnt;
             this.bodyCnt = bodyCnt;
@@ -169,7 +169,7 @@
     } 
 
 
-    class AnimalMove extends CatsVO {
+    class CatsMove extends CatsVO {
         
         switchArrow(direction, rsRun){
 
@@ -214,8 +214,62 @@
             this.switchArrow(direction, rsRun);
         }
 
+        zump(){
+            console.log(`${super.getInfo()}가 점프!!!`);
+        }  
+
     }
 
+    class DogsMove extends DogsVO {
+        
+        switchArrow(direction, rsRun){
+
+            switch (direction) {
+                case 'ARROWUP':
+                    console.log(`${super.getInfo()}가 전방으로 ${rsRun.move}칸 ${rsRun.msg}`);
+                    break;
+                case 'ARROWDOWN':
+                    console.log(`${super.getInfo()}가 후방으로 ${rsRun.move}칸 ${rsRun.msg}`);
+                    break;
+                case 'ARROWLEFT':
+                    console.log(`${super.getInfo()}가 왼쪽으로 ${rsRun.move}칸 ${rsRun.msg}`);
+                    break;
+                case 'ARROWRIGHT':
+                    console.log(`${super.getInfo()}가 오른쪽으로 ${rsRun.move}칸 ${rsRun.msg}`);
+                    break;
+            }
+
+        }
+
+        run(direction){
+            //ArrowUp  ArrowDown ArrowLeft ArrowRight    
+            const rsRun = super.run();
+            this.switchArrow(direction, rsRun);
+        }
+
+        work(direction){
+            //ArrowUp  ArrowDown ArrowLeft ArrowRight    
+            const rsRun = super.work();
+            this.switchArrow(direction, rsRun);
+        }
+
+        crawl(direction){
+            //ArrowUp  ArrowDown ArrowLeft ArrowRight    
+            const rsRun = super.crawl();
+            this.switchArrow(direction, rsRun);
+        }
+
+        swimming(direction){
+            //ArrowUp  ArrowDown ArrowLeft ArrowRight    'ARROWUP' 'ARROWDOWN'  'ARROWLEFT' 'ARROWRIGHT'
+            const rsRun = super.swimming();
+            this.switchArrow(direction, rsRun);
+        }
+
+        zump(){
+            console.log(`${super.getInfo()}가 점프!!!`);
+        }    
+
+    }
 
     /*
     * #########################여기부터 수행 로직 시작#################################
@@ -225,60 +279,114 @@
   //  console.log(oMover.style.position);
 
     console.log("########################################################");  
+    console.log("숫자키 1(슈퍼 고양이 사드) 2(멍멍이)");
     console.log("방향키 ArrowUp(위), ArrowDown(아래), ArrowLeft(왼쪽), ArrowRight(오른쪽)");
     console.log("속도키 W(걷기), R(달리기), S(수영하기), C(기어가기), X(멈춤)");
     console.log("########################################################");
 
+    let iPlayer = 1;
     let sMode = 'R';
     let bIsPressed = false;
-    let arrTmpTimeoutID = new Array(); 
+    let arrCatsTmpTimeoutID = new Array(); 
+    let arrDogsTmpTimeoutID = new Array(); 
     let sArrowKey = null;
+   // let sZumpKey = null;
 
-    function doIng(isPressed, sMode, sKey, iTimeoutID) {
+    function doIngCats(isPressed, sMode, sKey, iTimeoutID) {
+
+        if (isPressed) {
+
+            const iTimeoutSpeed = 100;
+            let iMulti = 4;
+
+            switch (sMode) {
+                case 'R':
+                    oCatsMove.run(sKey);
+                    iMulti = 70;
+                    break;
+                case 'W':
+                    oCatsMove.work(sKey);
+                    iMulti = 4;
+                    break;
+                case 'S':
+                    oCatsMove.swimming(sKey);
+                    iMulti = 2;
+                    break;
+                case 'C':
+                    oCatsMove.crawl(sKey); 
+                    iMulti = 1;
+                    break;
+            }
+
+            iTimeoutID = setTimeout(() => {
+                doIngCats(isPressed, sMode, sKey, iTimeoutID);       
+            }, iTimeoutSpeed * iMulti);
+            arrCatsTmpTimeoutID.push(iTimeoutID+1);
+
+        } else {
+            console.log(`${oCatsMove.getInfo()} 멈춤!!!`);
+        }
+
+    }
+
+    function doIngDogs(isPressed, sMode, sKey, iTimeoutID) {
 
         if (isPressed) {
 
             switch (sMode) {
                 case 'R':
-                    oAnimalMove.run(sKey);
+                    oDogsMove.run(sKey);
                     break;
                 case 'W':
-                    oAnimalMove.work(sKey);
+                    oDogsMove.work(sKey);
                     break;
                 case 'S':
-                    oAnimalMove.swimming(sKey);
+                    oDogsMove.swimming(sKey);
                     break;
                 case 'C':
-                    oAnimalMove.crawl(sKey); 
+                    oDogsMove.crawl(sKey); 
                     break;
             }
-            
-            iTimeoutID = setTimeout(() => {
-                doIng(isPressed, sMode, sKey, iTimeoutID);
-            }, 500);
 
-            arrTmpTimeoutID.push(iTimeoutID+1);
+            iTimeoutID = setTimeout(() => {
+                doIngDogs(isPressed, sMode, sKey, iTimeoutID);
+            }, 500);
+            arrDogsTmpTimeoutID.push(iTimeoutID+1);
+
         } else {
-            console.log(`${oAnimalMove.getInfo()} 멈춤!!!`);
+            console.log(`${oDogsMove.getInfo()} 멈춤!!!`);
         }
 
     }
 
 
+    const oCatsMove = new CatsMove();  
+    oCatsMove.headCnt = 1;
+    oCatsMove.bodyCnt = 1;
+    oCatsMove.footCnt = 4;
+    oCatsMove.tailCnt = 2;
 
-    const oAnimalMove = new AnimalMove();  
-    oAnimalMove.headCnt = 1;
-    oAnimalMove.bodyCnt = 1;
-    oAnimalMove.footCnt = 4;
-    oAnimalMove.tailCnt = 2;
+    const oDogsMove = new DogsMove();  
+    oDogsMove.headCnt = 3;
+    oDogsMove.bodyCnt = 1;
+    oDogsMove.footCnt = 4;
+    oDogsMove.tailCnt = 1;
 
-
-    window.addEventListener("keydown", (e) => {
+    document.addEventListener("keydown", (e) => {
         //ArrowUp  ArrowDown ArrowLeft ArrowRight 'ARROWUP' 'ARROWDOWN'  'ARROWLEFT' 'ARROWRIGHT'
-        //console.log(e.key.trim().length);
+      //  console.log(e.key.trim());
 
         const sKey = e.key.toUpperCase();
-        
+
+        switch (sKey) {
+                case '1':
+                    iPlayer = sKey;
+                    break;
+                case '2':
+                    iPlayer = sKey;
+                    break;
+        }
+
         switch (sKey) {
                 case 'R':
                     sMode = 'R';
@@ -296,19 +404,36 @@
 
         if(sKey == 'ARROWUP' || sKey == 'ARROWDOWN' || sKey == 'ARROWLEFT' || sKey == 'ARROWRIGHT'){
             bIsPressed = true;  
-            sArrowKey = sKey;      
+            sArrowKey = sKey;         
         }else if (sKey == 'X'){
-            bIsPressed = false;        
+            bIsPressed = false;             
         }else{
-            bIsPressed = true;        
+            bIsPressed = true;           
         }    
 
-      //  console.log(bIsPressed + " , " + sMode + " , " + sKey);
-        arrTmpTimeoutID.forEach((id) => {
-            clearTimeout(id);
-        });
-        doIng(bIsPressed, sMode, sArrowKey, null);
- 
+       // console.log(bIsPressed + " , " + sMode + " , " + sArrowKey  + " , " + iPlayer);
+
+        if(1 == iPlayer){
+            arrCatsTmpTimeoutID.forEach((id) => {
+                clearTimeout(id);
+            });
+            arrDogsTmpTimeoutID.forEach((id) => {
+                clearTimeout(id);
+            });
+
+            doIngCats(bIsPressed, sMode, sArrowKey, null);
+        }else if (2 == iPlayer){
+            arrCatsTmpTimeoutID.forEach((id) => {
+                clearTimeout(id);
+            });
+            arrDogsTmpTimeoutID.forEach((id) => {
+                clearTimeout(id);
+            });
+
+            doIngDogs(bIsPressed, sMode, sArrowKey, null);
+        }
+
+
     });
     
   </script>
