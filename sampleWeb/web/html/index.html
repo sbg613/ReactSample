@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../css/index.css" /><!--index.css 내용을 가져와서 내용을 꾸며준다.-->
+    <title>Home</title><!--제목이 Home이다.-->
+  </head>
+  <body>
+    <div id="garden" >
+       
+    </div>
+  </body>
+  <script>
+
+    class AnimalsVO {
+
+        constructor(headCnt, bodyCnt, footCnt, tailCnt){
+
+            this.headCnt = headCnt;
+            this.bodyCnt = bodyCnt;
+            this.footCnt = footCnt;
+            this.tailCnt = tailCnt;
+
+            this.speed = 1;
+        }
+        
+        get headCnt(){
+            return this._v1;
+        }
+        set headCnt(_v1){
+            this._v1 = _v1;
+        }
+
+        get bodyCnt(){
+            return this._v2;
+        }
+        set bodyCnt(_v2){
+            this._v2 = _v2;
+        }
+        
+        get footCnt(){
+            return this._v3;
+        }
+        set footCnt(_v3){
+            this._v3 = _v3;
+        }
+        
+        get tailCnt(){
+            return this._v4;
+        }
+        set tailCnt(_v4){
+            this._v4 = _v4;
+        }
+
+        get speed(){
+            return this._v5;
+        }
+        set speed(_v5){
+            this._v5 = _v5;
+        }
+    }   
+
+
+    class AnimalsX2VO {
+        
+        constructor(headCnt, bodyCnt, footCnt, tailCnt){
+            this.x = 3;
+
+            this.headCnt = headCnt;
+            this.bodyCnt = bodyCnt;
+            this.footCnt = footCnt;
+            this.tailCnt = tailCnt;
+
+            this.speed = 2;
+        }
+
+        get headCnt(){
+            return this._v1;
+        }
+        set headCnt(_v1){
+            this._v1 = _v1 * this.x;
+        }
+
+        get bodyCnt(){
+            return this._v2;
+        }
+        set bodyCnt(_v2){
+            this._v2 = _v2 * this.x;
+        }
+
+        get footCnt(){
+            return this._v3;
+        }
+        set footCnt(_v3){
+            this._v3 = _v3 * this.x;
+        }
+
+        get tailCnt(){
+            return this._v4;
+        }
+        set tailCnt(_v4){
+            this._v4 = _v4 * this.x;
+        }
+
+        get speed(){
+            return this._v5;
+        }
+        set speed(_v5){
+            this._v5 = _v5 ;
+        }
+    }   
+
+    class CatsVO extends AnimalsX2VO {
+        
+        getInfo(){
+            return `슈퍼 고양이 사드 [머리 ${super.headCnt}개 몸에 ${super.bodyCnt}개 다리에 ${super.footCnt}개 꼬리에 ${super.tailCnt}개 무기 장착] `;
+        }
+        
+        getJSONObject(){
+            return {headCnt:super.headCnt,bodyCnt:super.bodyCnt,footCnt:super.footCnt,tailCnt:super.tailCnt};  
+        }
+
+
+        run(){
+            return {msg:'달린다.', move:7 * super.speed};
+        }
+
+        work(){
+            return {msg:'걷는다.', move:4 * super.speed};
+        }
+
+        crawl(){
+            return {msg:'기어다닌다.', move:2 * super.speed};
+        }
+
+        swimming(){
+            return {msg:'수영한다.', move:1 * super.speed};
+        }
+    }    
+
+
+    class DogsVO extends AnimalsVO {
+        
+        getInfo(){
+            return `멍멍이 [머리 ${super.headCnt}개 몸에 ${super.bodyCnt}개 다리에 ${super.footCnt}개 꼬리에 ${super.tailCnt}개 무기 장착] `;
+        }
+        
+        getJSONObject(){
+            return {headCnt:super.headCnt,bodyCnt:super.bodyCnt,footCnt:super.footCnt,tailCnt:super.tailCnt};  
+        }
+
+
+        run(){
+            return {msg:'달린다.', move:7 * super.speed};
+        }
+
+        work(){
+            return {msg:'걷는다.', move:4 * super.speed};
+        }
+
+        crawl(){
+            return {msg:'기어다닌다.', move:2 * super.speed};
+        }
+
+        swimming(){
+            return {msg:'수영한다.', move:1 * super.speed};
+        }
+    } 
+
+
+    class AnimalMove extends CatsVO {
+        
+        switchArrow(direction, rsRun){
+
+            switch (direction) {
+                case 'ARROWUP':
+                    console.log(`${super.getInfo()}가 전방으로 ${rsRun.move}칸 ${rsRun.msg}`);
+                    break;
+                case 'ARROWDOWN':
+                    console.log(`${super.getInfo()}가 후방으로 ${rsRun.move}칸 ${rsRun.msg}`);
+                    break;
+                case 'ARROWLEFT':
+                    console.log(`${super.getInfo()}가 왼쪽으로 ${rsRun.move}칸 ${rsRun.msg}`);
+                    break;
+                case 'ARROWRIGHT':
+                    console.log(`${super.getInfo()}가 오른쪽으로 ${rsRun.move}칸 ${rsRun.msg}`);
+                    break;
+            }
+
+        }
+
+        run(direction){
+            //ArrowUp  ArrowDown ArrowLeft ArrowRight    
+            const rsRun = super.run();
+            this.switchArrow(direction, rsRun);
+        }
+
+        work(direction){
+            //ArrowUp  ArrowDown ArrowLeft ArrowRight    
+            const rsRun = super.work();
+            this.switchArrow(direction, rsRun);
+        }
+
+        crawl(direction){
+            //ArrowUp  ArrowDown ArrowLeft ArrowRight    
+            const rsRun = super.crawl();
+            this.switchArrow(direction, rsRun);
+        }
+
+        swimming(direction){
+            //ArrowUp  ArrowDown ArrowLeft ArrowRight    'ARROWUP' 'ARROWDOWN'  'ARROWLEFT' 'ARROWRIGHT'
+            const rsRun = super.swimming();
+            this.switchArrow(direction, rsRun);
+        }
+
+    }
+
+
+    /*
+    * #########################여기부터 수행 로직 시작#################################
+    */
+  //  const oMover = document.querySelector("#mover");
+  //  oMover.style.top = 300;
+  //  console.log(oMover.style.position);
+
+    console.log("########################################################");  
+    console.log("방향키 ArrowUp(위), ArrowDown(아래), ArrowLeft(왼쪽), ArrowRight(오른쪽)");
+    console.log("속도키 W(걷기), R(달리기), S(수영하기), C(기어가기), X(멈춤)");
+    console.log("########################################################");
+
+    let sMode = 'R';
+    let bIsPressed = false;
+    let arrTmpTimeoutID = new Array(); 
+    let sArrowKey = null;
+
+    function doIng(isPressed, sMode, sKey, iTimeoutID) {
+
+        if (isPressed) {
+
+            switch (sMode) {
+                case 'R':
+                    oAnimalMove.run(sKey);
+                    break;
+                case 'W':
+                    oAnimalMove.work(sKey);
+                    break;
+                case 'S':
+                    oAnimalMove.swimming(sKey);
+                    break;
+                case 'C':
+                    oAnimalMove.crawl(sKey); 
+                    break;
+            }
+            
+            iTimeoutID = setTimeout(() => {
+                doIng(isPressed, sMode, sKey, iTimeoutID);
+            }, 500);
+
+            arrTmpTimeoutID.push(iTimeoutID+1);
+        } else {
+            console.log(`${oAnimalMove.getInfo()} 멈춤!!!`);
+        }
+
+    }
+
+
+
+    const oAnimalMove = new AnimalMove();  
+    oAnimalMove.headCnt = 1;
+    oAnimalMove.bodyCnt = 1;
+    oAnimalMove.footCnt = 4;
+    oAnimalMove.tailCnt = 2;
+
+
+    window.addEventListener("keydown", (e) => {
+        //ArrowUp  ArrowDown ArrowLeft ArrowRight 'ARROWUP' 'ARROWDOWN'  'ARROWLEFT' 'ARROWRIGHT'
+        //console.log(e.key.trim().length);
+
+        const sKey = e.key.toUpperCase();
+        
+        switch (sKey) {
+                case 'R':
+                    sMode = 'R';
+                    break;
+                case 'W':
+                    sMode = 'W';
+                    break;
+                case 'S':
+                    sMode = 'S'; 
+                    break;
+                case 'C':
+                    sMode = 'C'; 
+                    break;
+        }
+
+        if(sKey == 'ARROWUP' || sKey == 'ARROWDOWN' || sKey == 'ARROWLEFT' || sKey == 'ARROWRIGHT'){
+            bIsPressed = true;  
+            sArrowKey = sKey;      
+        }else if (sKey == 'X'){
+            bIsPressed = false;        
+        }else{
+            bIsPressed = true;        
+        }    
+
+      //  console.log(bIsPressed + " , " + sMode + " , " + sKey);
+        arrTmpTimeoutID.forEach((id) => {
+            clearTimeout(id);
+        });
+        doIng(bIsPressed, sMode, sArrowKey, null);
+ 
+    });
+    
+  </script>
+</html>

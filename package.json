@@ -1,0 +1,19 @@
+{
+  "name": "reactsample",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://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@github.com/sbg613/ReactSample.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sbg613/ReactSample/issues"
+  },
+  "homepage": "https://github.com/sbg613/ReactSample#readme"
+}
